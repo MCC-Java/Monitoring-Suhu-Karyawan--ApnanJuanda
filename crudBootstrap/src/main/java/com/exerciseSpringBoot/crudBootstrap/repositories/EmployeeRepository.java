@@ -5,7 +5,9 @@
  */
 package com.exerciseSpringBoot.crudBootstrap.repositories;
 
+import com.exerciseSpringBoot.crudBootstrap.entities.Copyemp;
 import com.exerciseSpringBoot.crudBootstrap.entities.Employee;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -36,4 +38,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, String>{
     @Modifying
     @Query(value="UPDATE employees e SET e.idjob=?2, e.name=?3, e.group=?4 WHERE e.id=?1",nativeQuery = true)
     void UpdateProfil(String id, String idjobb, String name, String group);
+    
+   
+    
 }

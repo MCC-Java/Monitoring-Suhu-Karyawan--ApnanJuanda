@@ -14,6 +14,9 @@
     <class>com.exerciseSpringBoot.crudBootstrap.entities.EmpCondition</class>
     <class>com.exerciseSpringBoot.crudBootstrap.entities.HealtyStatus</class>
     <class>com.exerciseSpringBoot.crudBootstrap.entities.Job</class>
+    <class>com.exerciseSpringBoot.crudBootstrap.entities.Employee2</class>
+    <class>com.exerciseSpringBoot.crudBootstrap.entities.Copyemp</class>
+    <class>com.exerciseSpringBoot.crudBootstrap.entities.Ccondition</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3310/mahasiswa?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

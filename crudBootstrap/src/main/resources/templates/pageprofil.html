@@ -171,8 +171,8 @@
                                     <thead>
                                         <tr>
                                             <th>Id Karyawan</th>
-                                            <th>Id pekerjaan</th>
                                             <th>Nama</th>
+                                            <th>Pekerjaan</th>
                                             <th>Group</th>
                                             
                                         </tr>
@@ -180,8 +180,8 @@
                                     <tbody>
                                         <tr th:each="profill : ${profil}" method="GET">
                                             <td th:text="${profill.id}"></td>
-                                            <td th:text="${profill.idjob}"></td>
                                             <td th:text="${profill.name}"></td>
+                                            <td th:text="${profill.jobtitle}"></td>
                                             <td th:text="${profill.group}"></td>
                                         </tr>
                                     </tbody>
@@ -228,11 +228,11 @@
                       <label style="margin-top: 15px">Id Karyawan :</label>
                       <input type="text" id="textId" class="form-control" required="required" th:field="*{idemployee}" onfocus=this.value=''>
                       
-                      <label style="margin-top: 15px">Id Pekerjaan :</label>
+                      <label style="margin-top: 15px">Pekerjaan :</label>
                       <div class="form-group blu-margin" th:object="${profile}">
                             <select class="form-control" id="dropOperator" th:field="*{idjob}">
-                                <option value="0">Pilih Id Pekerjaan</option>
-                                <option th:each="jobb : ${job}" th:value="${jobb.id}" th:text="${jobb.id}"></option>
+                                <option value="0">Pilih Pekerjaan</option>
+                                <option th:each="jobb : ${job}" th:value="${jobb.id}" th:text="${jobb.jobTitle}"></option>
                             </select>
                       </div>
                       <label style="margin-top: 15px">Nama Karyawan :</label>

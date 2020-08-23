@@ -45,8 +45,8 @@ public class AccountService {
        account.saveAccount(idemployee, password, role);
     }
     
-    public void updateAccount(String username, String role){
-        account.updateAccount(username, role);
+    public void updateAccount(String username, String password, String role){
+        account.updateAccount(username, password, role);
     }
     
     public void deleteAccount(String username){

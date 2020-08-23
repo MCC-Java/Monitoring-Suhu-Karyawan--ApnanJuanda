@@ -62,9 +62,9 @@
                     <li>
                         <a th:href="@{'/updateprofil/' + ${emp.id}}"> <i class="menu-icon fa fa-tasks"></i>Update profil</a>
                     </li>
-                    <li>
+<!--                    <li>
                         <a th:href="@{'/ubahpass/' + ${emp.id}}"> <i class="menu-icon fa fa-plus-square"></i>Ubah password</a>
-                    </li>
+                    </li>-->
 
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -168,7 +168,7 @@
                                         <tr>
                                             <th>Tanggal pengecekan</th>
                                             <th>Suhu (&deg;C)</th>
-                                            <th>Id Status</th> 
+                                            <th>Status suhu</th> 
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -176,7 +176,7 @@
                                         <tr th:each="condition : ${empcondition}" method="GET">
                                             <td th:text="${condition.date}"></td>
                                             <td th:text="${condition.temperature}"></td>
-                                            <td th:text="${condition.idhealty}"></td>
+                                            <td th:text="${condition.information}"></td>
                                             <td><button style="margin-right: 5px;" class="btn btn-success" th:attr="onclick=|ubah('${condition.idempcondition}','${emp.id}');|">Edit</button><button class="btn btn-danger" th:attr="onclick=|fungsi('${condition.idempcondition}','${emp.id}');|">Delete</button></td>
                                         </tr>
                                     </tbody>
@@ -277,7 +277,7 @@
             }).then((result) => {
             if (result.value) {
             Swal.fire({
-            title: 'Matakuliah Berhasil terhapus',
+            title: 'Data Suhu Berhasil Terhapus',
             icon: 'success',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'OK'

@@ -5,7 +5,9 @@
  */
 package com.exerciseSpringBoot.crudBootstrap.services;
 
+import com.exerciseSpringBoot.crudBootstrap.entities.Copyemp;
 import com.exerciseSpringBoot.crudBootstrap.entities.Employee;
+import com.exerciseSpringBoot.crudBootstrap.repositories.CopyempRepository;
 import com.exerciseSpringBoot.crudBootstrap.repositories.EmployeeRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class EmployeeService {
     
     @Autowired
     EmployeeRepository employee;
+    
+    @Autowired
+    CopyempRepository copyemp;
     
     public List<Employee> getAll() {
         return employee.findAll();
@@ -51,5 +56,12 @@ public class EmployeeService {
     
      public void UpdateProfil(String id, String idjob, String name, String group){
         employee.UpdateProfil(id, idjob, name, group);
+        copyemp.UpdateProfil(id, idjob, name, group);
     }
+     
+     public List<Copyemp> getAllName(){
+        return copyemp.findAllName();
+    }
+     
+     
 }

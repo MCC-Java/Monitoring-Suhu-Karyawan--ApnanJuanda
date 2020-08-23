@@ -11,6 +11,7 @@ import com.exerciseSpringBoot.crudBootstrap.entities.Employee;
 import com.exerciseSpringBoot.crudBootstrap.entities.Job;
 import com.exerciseSpringBoot.crudBootstrap.entities.Profile;
 import com.exerciseSpringBoot.crudBootstrap.entities.Sorting;
+import com.exerciseSpringBoot.crudBootstrap.repositories.EmpconditionRepository;
 import com.exerciseSpringBoot.crudBootstrap.services.AccountService;
 import com.exerciseSpringBoot.crudBootstrap.services.EmpConditionService;
 import com.exerciseSpringBoot.crudBootstrap.services.EmployeeService;
@@ -51,6 +52,9 @@ public class AppsController {
     
     @Autowired
     private JobService jobService;
+    
+    @Autowired
+    private EmpconditionRepository ecr;
     
     //start of pageLogin
     @GetMapping("")
@@ -97,14 +101,14 @@ public class AppsController {
     @GetMapping("/pageadmin")
     public String kondisi(Model model) {
         model.addAttribute("sorting", new Sorting());
-        model.addAttribute("conditions", empConditionService.getAll());
+        model.addAttribute("conditions", empConditionService.getAllEmp());
         model.addAttribute("data", employeeService.getAll());
         return "pageadmin";
     }
     
     @GetMapping("/pageilness")
     public String ilness(Model model){
-        model.addAttribute("ilness", empConditionService.getByIlness());
+        model.addAttribute("ilness", empConditionService.getIlness());
         return "pageilness";
     }
     
@@ -112,7 +116,8 @@ public class AppsController {
     public String profil(Model model){
         model.addAttribute("profile", new Profile());
         model.addAttribute("job", jobService.getAll());
-        model.addAttribute("profil", employeeService.getAll());
+        model.addAttribute("profil", employeeService.getAllName());
+        
         return "pageprofil";
     }
     
@@ -124,16 +129,36 @@ public class AppsController {
         String group = profile.getGroup();
         String role = profile.getRole();
         String password = "12345";
+         String admin = "Admin";
        
         
         if(employeeService.check(idemployee)){
             model.addAttribute("profil", employeeService.getAll());
             return "redirect:/pageprofil";
-        }else{
-            employeeService.saveProfil(idemployee, idjob, name, group);
-            accountService.saveAccount(idemployee, password, role);
-            
         }
+        else{
+            if("A01".equals(idjob)){
+                if("Admin".equals(role)){
+                     employeeService.saveProfil(idemployee, idjob, name, group);
+                     accountService.saveAccount(idemployee, admin, role);
+                }
+                else if("Karyawan".equals(role)){
+                model.addAttribute("profil", employeeService.getAll());
+                return "redirect:/pageprofil";
+                }
+            }
+            else{
+               if("Admin".equals(role)){
+                    model.addAttribute("profil", employeeService.getAll());
+                    return "redirect:/pageprofil";
+               }
+               else if("Karyawan".equals(role)){
+               employeeService.saveProfil(idemployee, idjob, name, group);
+               accountService.saveAccount(idemployee, password, role);
+               }
+            }
+        }
+       
       return "redirect:/pageprofil";
     }
     
@@ -150,7 +175,16 @@ public class AppsController {
 
        String username = accountt.getUsername();
        String role = accountt.getRole();
-       accountService.updateAccount(username, role);
+       String admin = "Admin";
+       
+       if("Admin".equals(role)){
+           accountService.updateAccount(username, admin, role);
+       }
+       else if("Karyawan".equals(role)){
+           String password = "12345";
+           accountService.updateAccount(username, password, role);
+       }
+       
        
       return "redirect:/pageakun";
        
@@ -200,7 +234,6 @@ public class AppsController {
         return "pagesorting";
     }
     
-    //cuman untuk sampe ke pagegrafik aja
     @GetMapping("/pagegrafik")
     public String pagegrafik(Model model) {
         model.addAttribute("data", new Employee());
@@ -208,12 +241,19 @@ public class AppsController {
         return "pagegrafik";
     }
     
+//    @GetMapping("/viewgrafik")
+//    public String viewgrafik(Model model) {
+//        model.addAttribute("data", new Employee());
+//        model.addAttribute("list", employeeService.getAll());
+//        return "viewgrafik";
+//    }
+////    
     @RequestMapping("/viewgrafik")
     @ResponseBody
-    public String pagegrafik(@ModelAttribute(name = "data") Employee data, Model model){
+    public String viewgrafik(@ModelAttribute(name = "data") Employee data, Model model){
         String username = data.getName();
         List<EmpCondition> datalist = empConditionService.getByGrafik(username);
-//        model.addAttribute("datalist", empConditionService.getByGrafik(username));
+        model.addAttribute("datalistt", datalist);
         JsonArray jsonDate = new JsonArray();
         JsonArray jsonTemp = new JsonArray();
         JsonObject json = new JsonObject();
@@ -223,12 +263,11 @@ public class AppsController {
             String strDate = dateFormat.format(date);  
             jsonDate.add(strDate);
             jsonTemp.add(dataa.getTemperature());
-        
         });
+                
         json.add("date", jsonDate);
         json.add("temperature", jsonTemp);
         return json.toString();
-        
         
     }
 //end of pageadmin
@@ -238,6 +277,7 @@ public class AppsController {
     @RequestMapping("/pagekaryawan/{username}")
     public ModelAndView pagekaryawan(Model model, @PathVariable(name = "username") String username){
         ModelAndView mav = new ModelAndView("pagekaryawan");
+        String id = username;
         mav.addObject("empCondition", new EmpCondition());
         mav.addObject("emp", employeeService.getbyusername(username)); 
         mav.addObject("empcondition", empConditionService.getByUsername(username));
@@ -251,8 +291,6 @@ public class AppsController {
           if(empConditionService.checktanggal(tanggal, username)){
               model.addAttribute("empcondition", empConditionService.getByUsername(username));
               return "redirect:/pagegagal/" + username;
-//                model.addAttribute("sudahIsi", true);
-//                return "redirect:/pagekaryawan/" + username;
           }
           else{
            if(temperature<36.5){
@@ -341,6 +379,7 @@ public class AppsController {
         String id = employee.getId();
         Job idjob = employee.getIdjob();
         String idjobb = idjob.getId();
+//        String jobtitle = idjob.getJobTitle();
         String name = employee.getName();
         String group = employee.getGroup();
         employeeService.UpdateProfil(id, idjobb, name, group);
@@ -349,24 +388,24 @@ public class AppsController {
        
     }
     
-    @RequestMapping("/ubahpass/{username}")
-     public ModelAndView ubahpass(@PathVariable(name = "username") String username){
-         ModelAndView mav = new ModelAndView("ubahpass");
-         mav.addObject("emp", employeeService.getbyusername(username));
-         Account account = accountService.get(username);
-         mav.addObject("account", account);
-         return mav;
-     }
-     
-    @PostMapping("/UbahPass/{username}")
-    public String Ubahpass(@ModelAttribute(name = "account") Account account,@PathVariable(name = "username") String username, Model model) {
-    
-    String password = account.getPassword();
-    accountService.UbahPass(username, password);
-       
-    return "redirect:/pagekaryawan/" + username;
-       
-    }
+//    @RequestMapping("/ubahpass/{username}")
+//     public ModelAndView ubahpass(@PathVariable(name = "username") String username){
+//         ModelAndView mav = new ModelAndView("ubahpass");
+//         mav.addObject("emp", employeeService.getbyusername(username));
+//         Account account = accountService.get(username);
+//         mav.addObject("account", account);
+//         return mav;
+//     }
+//     
+//    @PostMapping("/UbahPass/{username}")
+//    public String Ubahpass(@ModelAttribute(name = "account") Account account,@PathVariable(name = "username") String username, Model model) {
+//    
+//    String password = account.getPassword();
+//    accountService.UbahPass(username, password);
+//       
+//    return "redirect:/pagekaryawan/" + username;
+//       
+//    }
     
     //end of pagekaryawan
     

@@ -5,7 +5,9 @@
  */
 package com.exerciseSpringBoot.crudBootstrap.services;
 
+import com.exerciseSpringBoot.crudBootstrap.entities.Ccondition;
 import com.exerciseSpringBoot.crudBootstrap.entities.EmpCondition;
+import com.exerciseSpringBoot.crudBootstrap.repositories.CconditionRepository;
 import com.exerciseSpringBoot.crudBootstrap.repositories.EmpconditionRepository;
 import java.time.LocalDate;
 import java.util.Date;
@@ -23,32 +25,31 @@ public class EmpConditionService {
     @Autowired
     private EmpconditionRepository empcondition;
     
+     @Autowired
+    private CconditionRepository ccondition;
+    
     public List<EmpCondition> getAll(){
         return empcondition.findAllConditions();
     }
      
-    public List<EmpCondition> getByUsername(String username){
-        return empcondition.findbyUSERNAME(username);
+    public List<Ccondition> getByUsername(String username){
+        return ccondition.findbyUSERNAME(username);
     }
     
-    public List<EmpCondition> getByIlness(){
-        return empcondition.findByIlness();
+    public List<Ccondition> getBySorting(String name, int month, float temp1, float temp2){
+        return ccondition.findBySorting(name, month, temp1, temp2);
     }
     
-    public List<EmpCondition> getBySorting(String name, int month, float temp1, float temp2){
-        return empcondition.findBySorting(name, month, temp1, temp2);
+    public List<Ccondition> getBySorting1(float temp1, float temp2){
+        return ccondition.findBySorting1(temp1, temp2);
     }
     
-    public List<EmpCondition> getBySorting1(float temp1, float temp2){
-        return empcondition.findBySorting1(temp1, temp2);
+    public List<Ccondition> getBySorting2(String name, float temp1, float temp2){
+        return ccondition.findBySorting2(name, temp1, temp2);
     }
     
-    public List<EmpCondition> getBySorting2(String name, float temp1, float temp2){
-        return empcondition.findBySorting2(name, temp1, temp2);
-    }
-    
-    public List<EmpCondition> getBySorting3(int month, float temp1, float temp2){
-        return empcondition.findBySorting3(month, temp1, temp2);
+    public List<Ccondition> getBySorting3(int month, float temp1, float temp2){
+        return ccondition.findBySorting3(month, temp1, temp2);
     }
     
      public List<EmpCondition> getByGrafik(String username){
@@ -65,18 +66,29 @@ public class EmpConditionService {
      
    public void saveinput(String idemployee, LocalDate date, float temperature, String idhealty){
        empcondition.saveinput(idemployee, date, temperature, idhealty);
+       ccondition.saveinput(idemployee, date, temperature, idhealty);
     }
     
      public void deletedata(int idempcondition){
         empcondition.deletedata(idempcondition);
+        ccondition.deletedata(idempcondition);
     }
     
     public EmpCondition get(int id){
         return empcondition.findById(id).get();
     }
     
-    public void update(String idemployee, Date date, float temperature, String idhealty, int idempcondition){
-        empcondition.update(idemployee, date, temperature, idhealty, idempcondition);
+    public void update(String idemployee, Date tanggal, float temperature, String idhealty, int idempcondition){
+        empcondition.update(idemployee, tanggal, temperature, idhealty, idempcondition);
+        ccondition.update(idemployee, tanggal, temperature, idhealty, idempcondition);
+    }
+    
+    public List<Ccondition> getAllEmp(){
+        return ccondition.findAllEmp();
+    }
+    
+    public List<Ccondition> getIlness(){
+        return ccondition.findIlness();
     }
     
     

@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")
-    , @NamedQuery(name = "Employee.findById", query = "SELECT e FROM Employee e WHERE e.id = :id")
+    , @NamedQuery(name = "Employee.findById", query = "SELECT e.id, e.idjob, e.name, e.group FROM Employee e WHERE e.id = :id")
     , @NamedQuery(name = "Employee.findByName", query = "SELECT e FROM Employee e WHERE e.name = :name")
     , @NamedQuery(name = "Employee.findByGroup", query = "SELECT e FROM Employee e WHERE e.group = :group")})
 public class Employee implements Serializable {
@@ -64,6 +64,8 @@ public class Employee implements Serializable {
     @JoinColumn(name = "idjob", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Job idjob;
+    
+   
 
     public Employee() {
     }
@@ -152,5 +154,6 @@ public class Employee implements Serializable {
     public void setGroup(String group) {
         this.group = group;
     }
+    
     
 }

@@ -1,1 +1,1 @@
-import _ from "jquery-validation-unobtrusive"
+import _ from "jquery-validation-unobtrusive" 

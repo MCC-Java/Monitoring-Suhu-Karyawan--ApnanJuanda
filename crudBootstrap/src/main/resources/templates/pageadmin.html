@@ -169,22 +169,22 @@
                                 <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Id Karyawan</th>
+                                            <th>Nama Karyawan</th>
                                             <th>Tanggal pengecekan</th>
                                             <th>Suhu (&deg;C)</th>
-                                            <th>Status kesehatan</th>
+                                            <th>Status suhu</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="conditionn : ${conditions}" method="GET">
-                                            <td th:text="${conditionn.idemployee}"></td>
+                                            <td th:text="${conditionn.name}"></td>
                                             <td th:text="${conditionn.date}"></td>
                                             <td th:text="${conditionn.temperature}"></td>
-                                            <td th:text="${conditionn.idhealty}"></td>
+                                            <td th:text="${conditionn.information}"></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <button class="btn btn-info" style="margin-top: 10px; margin-bottom:5px;" data-toggle="modal" data-target="#exampleModal">SortByMonth</button>
+                                <button class="btn btn-info" style="margin-top: 10px; margin-bottom:5px;" data-toggle="modal" data-target="#exampleModal">Sorting</button>
                             </div>
                         </div>
                     </div>

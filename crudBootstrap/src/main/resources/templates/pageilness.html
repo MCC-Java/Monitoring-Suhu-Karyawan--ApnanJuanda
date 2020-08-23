@@ -169,18 +169,18 @@
                                 <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Id Karyawan</th>
+                                            <th>Nama Karyawan</th>
                                             <th>Tanggal pengecekan</th>
                                             <th>Suhu (&deg;C)</th>
-                                            <th>Status kesehatan</th>
+                                            <th>Status Suhu</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="ilnesss : ${ilness}" method="GET">
-                                            <td th:text="${ilnesss.idemployee}"></td>
+                                            <td th:text="${ilnesss.name}"></td>
                                             <td th:text="${ilnesss.date}"></td>
                                             <td th:text="${ilnesss.temperature}"></td>
-                                            <td th:text="${ilnesss.idhealty}"></td>
+                                            <td th:text="${ilnesss.information}"></td>
                                         </tr>
                                     </tbody>
                                 </table>

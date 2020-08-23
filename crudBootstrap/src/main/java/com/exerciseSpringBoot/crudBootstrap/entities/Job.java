@@ -38,7 +38,7 @@ public class Job implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "job_title")
+    @Column(name = "jobtitle")
     private String jobTitle;
 
     private static final long serialVersionUID = 1L;

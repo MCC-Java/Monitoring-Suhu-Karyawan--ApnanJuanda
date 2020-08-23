@@ -26,8 +26,8 @@ public interface AccountRepository extends JpaRepository<Account, String>{
     
     @Transactional
     @Modifying
-    @Query(value="UPDATE accounts u SET u.role=?2 WHERE u.username=?1",nativeQuery = true)
-    void updateAccount(String username, String role);
+    @Query(value="UPDATE accounts u SET u.password=?2, u.role=?3 WHERE u.username=?1",nativeQuery = true)
+    void updateAccount(String username, String password, String role);
     
     @Transactional
     @Modifying

@@ -10,72 +10,75 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
  * @author ASUS
  */
 @Entity
-@Table(name = "emp_condition")
+@Table(name = "ccondition")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "EmpCondition.findAll", query = "SELECT e FROM EmpCondition e")
-    , @NamedQuery(name = "EmpCondition.findByIdempcondition", query = "SELECT e FROM EmpCondition e WHERE e.idempcondition = :idempcondition")
-    , @NamedQuery(name = "EmpCondition.findByDate", query = "SELECT e FROM EmpCondition e WHERE e.date = :date")
-    , @NamedQuery(name = "EmpCondition.findByTemperature", query = "SELECT e FROM EmpCondition e WHERE e.temperature = :temperature")})
-public class EmpCondition implements Serializable {
+    @NamedQuery(name = "Ccondition.findAll", query = "SELECT c FROM Ccondition c")
+    , @NamedQuery(name = "Ccondition.findByIdempcondition", query = "SELECT c FROM Ccondition c WHERE c.idempcondition = :idempcondition")
+    , @NamedQuery(name = "Ccondition.findByIdemployee", query = "SELECT c FROM Ccondition c WHERE c.idemployee = :idemployee")
+    , @NamedQuery(name = "Ccondition.findByDate", query = "SELECT c FROM Ccondition c WHERE c.date = :date")
+    , @NamedQuery(name = "Ccondition.findByTemperature", query = "SELECT c FROM Ccondition c WHERE c.temperature = :temperature")
+    , @NamedQuery(name = "Ccondition.findByIdhealty", query = "SELECT c FROM Ccondition c WHERE c.idhealty = :idhealty")})
+public class Ccondition implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "idempcondition")
     private Integer idempcondition;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 11)
+    @Column(name = "idemployee")
+    private String idemployee;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
     @Basic(optional = false)
     @NotNull
     @Column(name = "temperature")
     private float temperature;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 7)
+    @Column(name = "idhealty")
+    private String idhealty;
     
-    @JoinColumn(name = "idemployee", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Employee idemployee;
+    private String name;
     
-    @JoinColumn(name = "idhealty", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private HealtyStatus idhealty;
-    
+    private String information;
 
-    public EmpCondition() {
+    public Ccondition() {
     }
 
-    public EmpCondition(Integer idempcondition) {
+    public Ccondition(Integer idempcondition) {
         this.idempcondition = idempcondition;
     }
 
-    public EmpCondition(Integer idempcondition, Date date, float temperature) {
+    public Ccondition(Integer idempcondition, String idemployee, Date date, float temperature, String idhealty) {
         this.idempcondition = idempcondition;
+        this.idemployee = idemployee;
         this.date = date;
         this.temperature = temperature;
+        this.idhealty = idhealty;
     }
 
     public Integer getIdempcondition() {
@@ -84,6 +87,14 @@ public class EmpCondition implements Serializable {
 
     public void setIdempcondition(Integer idempcondition) {
         this.idempcondition = idempcondition;
+    }
+
+    public String getIdemployee() {
+        return idemployee;
+    }
+
+    public void setIdemployee(String idemployee) {
+        this.idemployee = idemployee;
     }
 
     public Date getDate() {
@@ -102,20 +113,34 @@ public class EmpCondition implements Serializable {
         this.temperature = temperature;
     }
 
-    public Employee getIdemployee() {
-        return idemployee;
-    }
-
-    public void setIdemployee(Employee idemployee) {
-        this.idemployee = idemployee;
-    }
-
-    public HealtyStatus getIdhealty() {
+    public String getIdhealty() {
         return idhealty;
     }
 
-    public void setIdhealty(HealtyStatus idhealty) {
+    public void setIdhealty(String idhealty) {
         this.idhealty = idhealty;
+    }
+    
+     /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getInformation() {
+        return information;
+    }
+    
+    public void setInformation(String information) {
+        this.information = information;
     }
 
     @Override
@@ -128,10 +153,10 @@ public class EmpCondition implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EmpCondition)) {
+        if (!(object instanceof Ccondition)) {
             return false;
         }
-        EmpCondition other = (EmpCondition) object;
+        Ccondition other = (Ccondition) object;
         if ((this.idempcondition == null && other.idempcondition != null) || (this.idempcondition != null && !this.idempcondition.equals(other.idempcondition))) {
             return false;
         }
@@ -140,7 +165,7 @@ public class EmpCondition implements Serializable {
 
     @Override
     public String toString() {
-        return "com.exerciseSpringBoot.crudBootstrap.entities.EmpCondition[ idempcondition=" + idempcondition + " ]";
+        return "com.exerciseSpringBoot.crudBootstrap.entities.Ccondition[ idempcondition=" + idempcondition + " ]";
     }
     
 }

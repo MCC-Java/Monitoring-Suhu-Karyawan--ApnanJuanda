@@ -62,9 +62,9 @@
                     <li class="menu active">
                         <a th:href="@{'/updateprofil/' + ${emp.id}}"> <i class="menu-icon fa fa-tasks"></i>Update profil</a>
                     </li>
-                    <li>
+<!--                    <li>
                         <a th:href="@{'/ubahpass/' + ${emp.id}}"> <i class="menu-icon fa fa-plus-square"></i>Ubah password</a>
-                    </li>
+                    </li>-->
 
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -172,12 +172,12 @@
                                           </td>
                                       </tr>
                                       <tr>
-                                          <td>Id Job :</td>
+                                          <td>Pekerjaan :</td>
                                           <td>
                                               <div class="form-group blu-margin" th:object="${employee}">
                                                     <select class="form-control" id="dropOperator" th:field="*{idjob}">
-                                                        <option value="0">Pilih Id Pekerjaan</option>
-                                                        <option th:each="jobb : ${job}" th:value="${jobb.id}" th:text="${jobb.id}"></option>
+<!--                                                        <option value="0">Pilih Id Pekerjaan</option>-->
+                                                        <option th:each="jobb : ${job}" th:value="${jobb.id}" th:text="${jobb.jobTitle}"></option>
                                                     </select>
                                               </div>
                                           </td>

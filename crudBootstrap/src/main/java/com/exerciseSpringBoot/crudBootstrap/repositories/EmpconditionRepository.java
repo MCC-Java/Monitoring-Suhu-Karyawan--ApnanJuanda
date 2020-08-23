@@ -23,8 +23,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface EmpconditionRepository extends JpaRepository<EmpCondition, Integer>{
+//    @Modifying
+//    @Query(value = "SELECT*FROM emp_condition e INNER JOIN healty_status h ON e.idhealty=h.id WHERE e.idemployee =:username", nativeQuery = true)
+//    List<EmpCondition> findbyUSERNAME(@Param("username") String username);
     @Modifying
-    @Query(value = "SELECT*FROM emp_condition e INNER JOIN healty_status h ON e.idhealty=h.id WHERE e.idemployee =:username", nativeQuery = true)
+    @Query(value = "SELECT employees.name, emp_condition.date, emp_condition.temperature, healty_status.information, emp_condition.idempcondition, emp_condition.idemployee, emp_condition.idhealty FROM employees INNER JOIN emp_condition ON employees.id=emp_condition.idemployee INNER JOIN healty_status ON emp_condition.idhealty=healty_status.id WHERE emp_condition.idemployee =:username", nativeQuery = true)
     List<EmpCondition> findbyUSERNAME(@Param("username") String username);
     
     @Modifying
@@ -47,30 +50,7 @@ public interface EmpconditionRepository extends JpaRepository<EmpCondition, Inte
     @Transactional
     @Modifying
     @Query(value="UPDATE emp_condition u SET u.idemployee=?1, u.date=?2, u.temperature=?3, u.idhealty=?4 WHERE u.idempcondition=?5",nativeQuery = true)
-    void update(String idemployee, Date date, float temperature, String idhealty, int idempcondition);
-    
-    @Modifying
-    @Query(value = "SELECT*FROM emp_condition WHERE emp_condition.temperature > 37 ORDER BY emp_condition.idemployee ASC, emp_condition.date ASC", nativeQuery = true)
-    List<EmpCondition> findByIlness();
-    
-    @Modifying
-    @Query(value = "SELECT emp_condition.idempcondition, emp_condition.idemployee, emp_condition.date, emp_condition.temperature, emp_condition.idhealty FROM emp_condition  INNER JOIN employees ON emp_condition.idemployee=employees.id WHERE employees.name=?1 AND MONTH(emp_condition.date)=?2 AND (emp_condition.temperature BETWEEN ?3 AND ?4) ORDER BY emp_condition.date ASC;" , nativeQuery = true)
-    List<EmpCondition> findBySorting(String name, int month, float temp1, float temp2);
-   
-
-    @Modifying
-    @Query(value = "SELECT emp_condition.idempcondition, emp_condition.idemployee, emp_condition.date, emp_condition.temperature, emp_condition.idhealty FROM emp_condition  INNER JOIN employees ON emp_condition.idemployee=employees.id WHERE (emp_condition.temperature BETWEEN ?1 AND ?2) ORDER BY emp_condition.date ASC;" , nativeQuery = true)
-    List<EmpCondition> findBySorting1(float temp1, float temp2);
-    
-
-    @Modifying
-    @Query(value = "SELECT emp_condition.idempcondition, emp_condition.idemployee, emp_condition.date, emp_condition.temperature, emp_condition.idhealty FROM emp_condition  INNER JOIN employees ON emp_condition.idemployee=employees.id WHERE employees.name=?1 AND (emp_condition.temperature BETWEEN ?2 AND ?3) ORDER BY emp_condition.date ASC;" , nativeQuery = true)
-    List<EmpCondition> findBySorting2(String name, float temp1, float temp2);
-    
-
-    @Modifying
-    @Query(value = "SELECT emp_condition.idempcondition, emp_condition.idemployee, emp_condition.date, emp_condition.temperature, emp_condition.idhealty FROM emp_condition  INNER JOIN employees ON emp_condition.idemployee=employees.id WHERE MONTH(emp_condition.date)=?1 AND (emp_condition.temperature BETWEEN ?2 AND ?3) ORDER BY emp_condition.date ASC;" , nativeQuery = true)
-    List<EmpCondition> findBySorting3(int month, float temp1, float temp2);
+    void update(String idemployee, Date tanggal, float temperature, String idhealty, int idempcondition);
     
     @Modifying
     @Query(value = "SELECT emp_condition.idempcondition, emp_condition.idemployee, emp_condition.date, emp_condition.temperature, emp_condition.idhealty FROM emp_condition  INNER JOIN employees ON emp_condition.idemployee=employees.id WHERE employees.name=?1 ORDER BY emp_condition.date ASC;" , nativeQuery = true)
